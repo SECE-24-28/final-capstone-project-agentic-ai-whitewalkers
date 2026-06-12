@@ -1,4 +1,4 @@
-# 🎓 Sri Eshwar College — Department FAQ Bot
+# 🎓 Department FAQ Bot
 
 > An AI-powered Retrieval-Augmented Generation (RAG) chatbot for Sri Eshwar College of Engineering (SECE), Coimbatore. Get instant, accurate answers to all your college-related queries — from departments and admissions to campus life and placements.
 
