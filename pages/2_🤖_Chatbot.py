@@ -280,24 +280,24 @@ for msg in st.session_state.chat_history:
 
     if role == "user":
         st.markdown(f"""
-        <div class="msg-wrapper user-msg">
-          <div class="avatar avatar-user">👤</div>
-          <div>
-            <div class="bubble bubble-user">{content}</div>
-            <span class="msg-time" style="text-align:right;">{ts}</span>
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
+<div class="msg-wrapper user-msg">
+  <div class="avatar avatar-user">👤</div>
+  <div>
+    <div class="bubble bubble-user">{content}</div>
+    <span class="msg-time" style="text-align:right;">{ts}</span>
+  </div>
+</div>
+""", unsafe_allow_html=True)
     else:
         st.markdown(f"""
-        <div class="msg-wrapper">
-          <div class="avatar avatar-bot">🤖</div>
-          <div>
-            <div class="bubble bubble-bot">{content}</div>
-            <span class="msg-time">{ts}</span>
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
+<div class="msg-wrapper">
+  <div class="avatar avatar-bot">🤖</div>
+  <div>
+    <div class="bubble bubble-bot">{content}</div>
+    <span class="msg-time">{ts}</span>
+  </div>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 

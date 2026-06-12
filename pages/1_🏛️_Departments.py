@@ -2,6 +2,8 @@
 # Streamlit multi-page app page
 
 import streamlit as st
+import base64
+import os
 
 st.set_page_config(
     page_title="Departments — Sri Eshwar College",
@@ -10,7 +12,13 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-st.markdown("""
+def get_base64_image(image_path):
+    if not os.path.exists(image_path):
+        return ""
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode('utf-8')
+
+st.html("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap');
 
@@ -51,13 +59,27 @@ html, body, [class*="css"] { font-family:'Inter',sans-serif!important; backgroun
 /* DEPT CARD */
 .dept-card {
   background:rgba(255,255,255,.038);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border:1px solid rgba(108,99,255,.18);
   border-radius:24px;
   margin:0 64px 28px;
   overflow:hidden;
   transition:all .3s ease;
+  display: flex;
+  flex-direction: column;
 }
-.dept-card:hover { border-color:rgba(108,99,255,.4); box-shadow:0 12px 40px rgba(108,99,255,.1); }
+.dept-card:hover { 
+  border-color:rgba(108,99,255,.4); 
+  box-shadow:0 12px 40px rgba(108,99,255,.1); 
+  transform: translateY(-4px); 
+}
+.dept-cover {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(108,99,255,.18);
+}
 
 .dept-header {
   display:flex; align-items:center; gap:20px;
@@ -125,10 +147,10 @@ html, body, [class*="css"] { font-family:'Inter',sans-serif!important; backgroun
 /* Streamlit sidebar */
 [data-testid="stSidebar"] { background:rgba(10,14,26,.97)!important; border-right:1px solid rgba(108,99,255,.18)!important; }
 </style>
-""", unsafe_allow_html=True)
+""")
 
 # ── Page Header ───────────────────────────────────────────────────────────────
-st.markdown("""
+st.html("""
 <div class="page-hero">
   <div class="page-eyebrow">🏛️ ACADEMIC DEPARTMENTS</div>
   <h1 class="page-title">Explore Our Engineering Departments</h1>
@@ -138,9 +160,9 @@ st.markdown("""
     industry connections.
   </p>
 </div>
-""", unsafe_allow_html=True)
+""")
 
-st.markdown("<div style='height:24px'></div>", unsafe_allow_html=True)
+st.html("<div style='height:24px'></div>")
 
 # ── Department Data ───────────────────────────────────────────────────────────
 departments = [
@@ -148,6 +170,7 @@ departments = [
         "short": "CSE",
         "full": "Computer Science and Engineering",
         "icon": "💻",
+        "image": "images/cse.png",
         "color_bg": "rgba(108,99,255,0.18)",
         "color_border": "rgba(108,99,255,0.45)",
         "color_text": "#a78bfa",
@@ -182,6 +205,7 @@ departments = [
         "short": "ECE",
         "full": "Electronics and Communication Engineering",
         "icon": "📡",
+        "image": "images/ece.png",
         "color_bg": "rgba(78,205,196,0.14)",
         "color_border": "rgba(78,205,196,0.4)",
         "color_text": "#4ecdc4",
@@ -214,6 +238,7 @@ departments = [
         "short": "Mech",
         "full": "Mechanical Engineering",
         "icon": "⚙️",
+        "image": "images/mech.png",
         "color_bg": "rgba(255,107,107,0.12)",
         "color_border": "rgba(255,107,107,0.38)",
         "color_text": "#ff6b6b",
@@ -246,6 +271,7 @@ departments = [
         "short": "EEE",
         "full": "Electrical and Electronics Engineering",
         "icon": "⚡",
+        "image": "images/eee.png",
         "color_bg": "rgba(255,215,0,0.10)",
         "color_border": "rgba(255,215,0,0.35)",
         "color_text": "#ffd700",
@@ -277,6 +303,7 @@ departments = [
         "short": "Civil",
         "full": "Civil Engineering",
         "icon": "🏗️",
+        "image": "images/civil.png",
         "color_bg": "rgba(100,220,100,0.09)",
         "color_border": "rgba(100,220,100,0.32)",
         "color_text": "#6ddc6d",
@@ -308,6 +335,7 @@ departments = [
         "short": "IT",
         "full": "Information Technology",
         "icon": "🖥️",
+        "image": "images/it.png",
         "color_bg": "rgba(255,140,0,0.10)",
         "color_border": "rgba(255,140,0,0.32)",
         "color_text": "#ffa040",
@@ -334,7 +362,7 @@ departments = [
         "faculty": "42+ Faculty (9 PhDs)",
         "achievements": ["Microsoft Learn Student Ambassador", "IBM SkillBuild Partner", "Top Placement: Zoho & Freshworks", "Best Start-up Idea Award"],
         "intake": "240 seats (UG)",
-    },
+    }
 ]
 
 # ── Render Each Department Card ───────────────────────────────────────────────
@@ -362,54 +390,59 @@ for dept in departments:
     for ach in dept["achievements"]:
         ach_badges += f'<span class="ach-badge" style="background:{color_bg};border-color:{color_border};color:{color_text};">{ach}</span>'
 
-    st.markdown(f"""
-    <div class="dept-card">
-      <div class="dept-header">
-        <div class="dept-icon-wrap" style="background:{color_bg};border:1px solid {color_border};">
-          {dept['icon']}
-        </div>
-        <div style="flex:1;">
-          <div class="dept-name">{dept['full']}</div>
-          <div class="dept-full">Department of {dept['full']} &nbsp;·&nbsp; {dept['faculty']}</div>
-          <div class="dept-meta">
-            <span class="dept-tag" style="background:{color_bg};border-color:{color_border};color:{color_text};">{dept['short']}</span>
-            <span class="dept-tag" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:#8892b0;">
-              🪑 {dept['intake']}
-            </span>
-          </div>
-        </div>
-      </div>
+    # Base64 Image
+    img_b64 = get_base64_image(dept.get("image", ""))
+    img_html = f'<img src="data:image/png;base64,{img_b64}" class="dept-cover">' if img_b64 else ""
 
-      <div class="dept-body">
-        <!-- Overview -->
-        <div style="grid-column:1/-1;">
-          <div class="info-block-title" style="color:{color_text};">📖 Overview</div>
-          <div class="info-text">{dept['overview']}</div>
-        </div>
-
-        <!-- Courses -->
-        <div>
-          <div class="info-block-title" style="color:{color_text};">🎓 Courses Offered</div>
-          <div class="courses-grid">{course_pills}</div>
-        </div>
-
-        <!-- Labs -->
-        <div>
-          <div class="info-block-title" style="color:{color_text};">🔬 Labs & Facilities</div>
-          <ul class="info-list">{labs_items}</ul>
-        </div>
-
-        <!-- Achievements -->
-        <div style="grid-column:1/-1;">
-          <div class="info-block-title" style="color:{color_text};">🏆 Achievements & Highlights</div>
-          <div class="ach-row">{ach_badges}</div>
-        </div>
+    st.html(f"""
+<div class="dept-card">
+  {img_html}
+  <div class="dept-header">
+    <div class="dept-icon-wrap" style="background:{color_bg};border:1px solid {color_border};">
+      {dept['icon']}
+    </div>
+    <div style="flex:1;">
+      <div class="dept-name">{dept['full']}</div>
+      <div class="dept-full">Department of {dept['full']} &nbsp;·&nbsp; {dept['faculty']}</div>
+      <div class="dept-meta">
+        <span class="dept-tag" style="background:{color_bg};border-color:{color_border};color:{color_text};">{dept['short']}</span>
+        <span class="dept-tag" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:#8892b0;">
+          🪑 {dept['intake']}
+        </span>
       </div>
     </div>
-    """, unsafe_allow_html=True)
+  </div>
+
+  <div class="dept-body">
+    <!-- Overview -->
+    <div style="grid-column:1/-1;">
+      <div class="info-block-title" style="color:{color_text};">📖 Overview</div>
+      <div class="info-text">{dept['overview']}</div>
+    </div>
+
+    <!-- Courses -->
+    <div>
+      <div class="info-block-title" style="color:{color_text};">🎓 Courses Offered</div>
+      <div class="courses-grid">{course_pills}</div>
+    </div>
+
+    <!-- Labs -->
+    <div>
+      <div class="info-block-title" style="color:{color_text};">🔬 Labs & Facilities</div>
+      <ul class="info-list">{labs_items}</ul>
+    </div>
+
+    <!-- Achievements -->
+    <div style="grid-column:1/-1;">
+      <div class="info-block-title" style="color:{color_text};">🏆 Achievements & Highlights</div>
+      <div class="ach-row">{ach_badges}</div>
+    </div>
+  </div>
+</div>
+""")
 
 # ── Footer CTA ────────────────────────────────────────────────────────────────
-st.markdown("""
+st.html("""
 <div class="dept-footer-cta">
   <h2>🤖 Still have questions?</h2>
   <p>
@@ -417,7 +450,7 @@ st.markdown("""
     from syllabus details to exam schedules and placement statistics.
   </p>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 col1, col2, col3 = st.columns([2, 1, 2])
 with col2:
@@ -425,4 +458,4 @@ with col2:
     st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
     st.page_link("main.py", label="🏠 Back to Home", use_container_width=True)
 
-st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
+st.html("<div style='height:40px'></div>")
