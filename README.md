@@ -1,6 +1,6 @@
 # 🎓 Department FAQ Bot
 
-> An AI-powered Retrieval-Augmented Generation (RAG) chatbot for Sri Eshwar College of Engineering (SECE), Coimbatore. Get instant, accurate answers to all your college-related queries — from departments and admissions to campus life and placements.
+> An AI-powered Retrieval-Augmented Generation (RAG) chatbot. Get instant, accurate answers to all your college-related queries — from departments and admissions to campus life and placements.
 
 ---
 
@@ -25,7 +25,7 @@
 
 ## Overview
 
-The **Sri Eshwar College FAQ Bot** is a multi-page Streamlit web application that leverages **Retrieval-Augmented Generation (RAG)** to answer frequently asked questions about Sri Eshwar College of Engineering. The bot ingests college PDF documents (brochures, handbooks, department info, etc.), stores them in a vector database, and uses a LLM (Groq's LLaMA 3.1) to generate contextually accurate answers grounded in real college data.
+The **FAQ Bot** is a multi-page Streamlit web application that leverages **Retrieval-Augmented Generation (RAG)** to answer frequently asked questions about Sri Eshwar College of Engineering. The bot ingests college PDF documents (brochures, handbooks, department info, etc.), stores them in a vector database, and uses a LLM (Groq's LLaMA 3.1) to generate contextually accurate answers grounded in real college data.
 
 The app features:
 - A **landing/home page** with college information, stats, accreditations, and campus life highlights.
@@ -243,13 +243,4 @@ User Query
 
 ---
 
-## License
 
-This project is intended for educational and institutional use at **Sri Eshwar College of Engineering**, Coimbatore.
-
----
-
-<div align="center">
-  <strong>Built with ❤️ for Sri Eshwar College of Engineering</strong><br/>
-  <em>Coimbatore, Tamil Nadu | Established 2004 | NAAC A+ Accredited</em>
-</div>
